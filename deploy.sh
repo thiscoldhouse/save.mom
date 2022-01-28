@@ -4,9 +4,7 @@
 set -e
 
 sshuser=$1
-reponame="https://github.com/thiscoldhouse/prochoicewhistleblower.git"
-
-prodpath="/var/www/prolifewhistleblower.org"
+reponame="https://github.com/thiscoldhouse/save.mom.git"
 
 localdeploy=thiscoldhousedeploy
 server="save.mom"
