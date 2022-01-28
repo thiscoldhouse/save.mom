@@ -1,0 +1,399 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://catastrophicthinking.com/lib/jquery-3.3.1.js"></script>
+    <title>Fuck you Glenn Youngkin
+    </title>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function(){
+        var state = {
+          'link': null
+        }
+
+        let highschools =
+            [
+              'Murray High School',
+              'Western Albemarle High School',
+              'Renaissance School',
+              "St. Anne's-Belfield School",
+              'Tandem Friends School',
+              'The Covenant School',
+              'Alexandria Friends School',
+              'Bishop Ireton High School',
+              'Episcopal High School',
+              'Buffalo Gap High School',
+              'Fishburne Military School',
+              'Fort Defiance High School',
+              'Ridgeview Christian School',
+              'Riverheads High School',
+              'Stuart Hall School',
+              'Stuarts Draft High School',
+              'Wilson Memorial High School',
+              'Council High School',
+              'Grundy Senior High School',
+              'Hurley High School',
+              'Twin Valley High School',
+              'E. C. Glass High School',
+              'Heritage High School',
+              'Holy Cross',
+              'Virginia Episcopal School (VES)',
+              'Brookville High School',
+              'Rustburg High School',
+              'Altavista High School',
+              'William Campbell High School',
+              'The Dominion School',
+              'Flint Hill School',
+              'GW Community School',
+              'The Madeira School',
+              'Trinity Christian School',
+              'Mountain View Alternative School',
+              'Oak Hill Christian School',
+              'Phillips School-Annandale',
+              'Potomac School',
+              'Trinity School at Meadow View',
+              'The Fairfax Christian School',
+              'Collegiate School',
+              'Deep Run High School',
+              'Douglas S. Freeman High School',
+              'Mills E. Godwin High School',
+              'Glen Allen High School',
+              'Henrico High School',
+              'Hermitage High School',
+              'Hermitage Technical Center',
+              'Highland Springs High School',
+              'Highland Springs Technical Center',
+              'Landmark Christian School',
+              'Northstar Academy',
+              'Virginia Randolph Community High School',
+              'The Steward School',
+              'J.R. Tucker High School',
+              'Varina High School',
+              'E. C. Glass High School',
+              'Heritage High School',
+              'Liberty Christian Academy',
+              "Central Virginia Governor's School for Science and Technology",
+              'Virginia Episcopal School',
+              'Granby High School',
+              'Lake Taylor High School',
+              'Matthew Fontaine Maury High School',
+              'Norfolk Academy',
+              'Norfolk Christian High School',
+              'Norfolk Collegiate School',
+              'Norfolk Preparatory High School',
+              'Norview High School',
+              'Booker T. Washington High School',
+              'The Hague School',
+              'Ghent Montessori School',
+              'Chancellor High School',
+              'Courtland High School',
+              'Massaponax High School',
+              'Riverbend High School',
+              'Spotsylvania High School',
+              'Fredericksburg Academy',
+              'Fredericksburg Christian School',
+              'Massaponax Christian Academy',
+              'Faith Baptist School'
+            ]
+
+        // markov taken from : https://gist.github.com/kevincennis/5440878
+        // basic usage: new Markov(lotsOfText).generate()
+
+        // markov chain constructor
+        //
+        // @string input {example text}
+        // @integer len {optional # of words to output}
+        // @integer stateSize {optional chain order}
+        function Markov( input, len, stateSize ){
+          this.cache = Object.create(null)
+          this.words = input.split(/\s/)
+          this.startwords = [this.words[0]]
+          this.stateSize = stateSize || 2
+          this.outputSize = len || 100
+          this.analyzed = false
+        }
+
+        // return a random element from an array
+        Markov.prototype.choose = function( arr ){
+          return arr[~~( Math.random() * arr.length )]
+        }
+
+        // get the next set of words as a string
+        Markov.prototype.getNextSet = function( i ){
+          return this.words.slice(i, i + this.stateSize).join(' ')
+        }
+
+        // create a markov lookup
+        Markov.prototype.analyze = function( input ){
+          var len = this.words.length, next
+          this.words.forEach(function( word, i ){
+            next = this.getNextSet(++i)
+            ;(this.cache[word] = this.cache[word] || []).push(next)
+            ;/[A-Z]/.test(word[0]) && this.startwords.push(word)
+          }.bind(this))
+          return this.analyzed = true && this
+        }
+
+        // generate new text from a markov lookup
+        Markov.prototype.generate = function(){
+          var seed, arr, choice, curr, i = 1
+          !this.analyzed && this.analyze()
+          arr = [seed = this.choose(this.startwords)]
+          for ( ; i < this.outputSize; i += this.stateSize ){
+            arr.push(choice = this.choose(curr || this.cache[seed]))
+            curr = this.cache[choice.split(' ').pop()]
+          }
+          return arr.join(' ') + '.'
+        }
+
+        // ------------ end markov implementation ------- //
+
+        function randomFrom(thing){
+          return thing[Math.floor(Math.random()*thing.length)];
+        }
+
+        function getHighSchool(){
+          return randomFrom(highschools);
+        }
+
+        function generateTeacher(){
+          let lastNames = ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen', 'Young', 'Hernandez', 'King', 'Wright', 'Lopez', 'Hill', 'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed', 'Cook', 'Morgan', 'Bell', 'Murphy', 'Bailey', 'Rivera', 'Cooper', 'Richardson', 'Cox', 'Howard', 'Ward', 'Torres', 'Peterson', 'Gray', 'Ramirez', 'James', 'Watson', 'Brooks', 'Kelly', 'Sanders', 'Price', 'Bennett', 'Wood', 'Barnes', 'Ross', 'Henderson', 'Coleman', 'Jenkins', 'Perry', 'Powell', 'Long', 'Patterson', 'Hughes', 'Flores', 'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant', 'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes', 'Myers', 'Ford', 'Hamilton', 'Graham', 'Sullivan', 'Wallace', 'Woods', 'Cole', 'West', 'Jordan', 'Owens', 'Reynolds', 'Fisher', 'Ellis', 'Harrison', 'Gibson', 'Mcdonald', 'Cruz', 'Marshall', 'Ortiz', 'Gomez', 'Murray', 'Freeman', 'Wells', 'Webb', 'Simpson', 'Stevens', 'Tucker', 'Porter', 'Hunter', 'Hicks', 'Crawford', 'Henry', 'Boyd', 'Mason', 'Morales', 'Kennedy', 'Warren', 'Dixon', 'Ramos', 'Reyes', 'Burns', 'Gordon', 'Shaw', 'Holmes', 'Rice', 'Robertson', 'Hunt', 'Black', 'Daniels', 'Palmer', 'Mills', 'Nichols', 'Grant', 'Knight', 'Ferguson', 'Rose', 'Abbot']
+          let firstNames = ['Michael', 'Christopher', 'Jessica', 'Matthew', 'Ashley', 'Jennifer', 'Joshua', 'Amanda', 'Daniel', 'David', 'James', 'Robert', 'John', 'Joseph', 'Andrew', 'Ryan', 'Brandon', 'Jason', 'Justin', 'Sarah', 'William', 'Jonathan', 'Stephanie', 'Brian', 'Nicole', 'Nicholas', 'Anthony', 'Heather', 'Eric', 'Elizabeth', 'Adam', 'Megan', 'Melissa', 'Kevin', 'Steven', 'Thomas', 'Timothy', 'Christina', 'Kyle', 'Rachel', 'Laura', 'Lauren', 'Amber', 'Brittany', 'Danielle', 'Richard', 'Kimberly', 'Jeffrey', 'Amy', 'Crystal']
+          return randomFrom(firstNames) + " " + randomFrom(lastNames);
+        }
+
+        function toTitleCase(str) {
+          str = str.toLowerCase();
+          return str.replace(/(?:^|\s)\w/g, function(match) {
+            return match.toUpperCase();
+          });
+        }
+
+        function generateLink(){
+          state.link =  generateLinkWithSpaceChar(' ', false); // regular space
+          jumpToLink()
+        }
+
+        function getPrep(){
+          return randomFrom(['at', 'in']);
+        }
+
+        function getOffense(){
+          offenses = [
+            'CRT',
+            'Divisive content',
+            'America is racist',
+            'racism',
+            'Fake history',
+            'something that made my ' + randomFrom(['son', 'daughter']) + ' uncomfortabe'
+          ];
+          return randomFrom(offenses);
+        }
+
+        function generateSubject(teacher){
+          let prompts = [
+            getHighSchool() + ' teaching ' + getOffense(),
+            randomFrom(['Reporting', 'Tip:', 'Problem at']) + ' '  + getHighSchool(),
+            teacher + ' ' + getPrep() + ' ' + getHighSchool() + ' is teaching ' + getOffense(),
+          ]
+
+          return randomFrom(prompts);
+        }
+
+        function generateBody(){
+          let body = new Markov(getBookText()).generate().split('<|END|>')[0]
+          return body;
+        }
+
+        function generateData(){
+          let teacher = generateTeacher();
+          let subject = toTitleCase(generateSubject(teacher));
+          let body = generateBody(teacher);
+          $('#email-subject').html(subject);
+          $('#email-body').html(body);
+          $('#form-container').css('display', 'block');
+        }
+
+        function getBook(){
+          $.get("/static/bible.txt", function(data){
+            $("#book").html(data);
+          });
+        }
+
+        function getBookText(){
+          return $("#book").html();
+        }
+
+        function serialize(obj){
+          var str = [];
+          for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+          return str.join("&");
+        }
+
+        function makeLink(){
+          let subject = $('#email-subject').html();
+          let body = $('#email-body').html();
+          let to = 'helpeducation@governor.virginia.gov'
+
+          let link = 'mailto:' + to + '?' + serialize({'subject': subject, 'body': body});
+          $("#link").attr('href', link);
+          $('#link').css('display', 'block');
+          $('#link-message').css('display', 'block');
+
+        }
+
+        // page setup
+        getBook();
+        $('#generate').on('click', generateData);
+        $('#make-link').on('click', makeLink);
+
+      });
+
+      </script>
+    <div class="header">
+      <img id="logo" src="/static/logo.png"></img>
+      <div id="me"><a target="_blank" href="https://catastrophicthinking.com/">More like this</a></div>
+    </div>
+
+    <div id="book" style="display: none"></div>
+    <div class="form">
+      <br>
+      <div class="subtitle">
+        The state of Virginia has set up an email address for people to report "divisive teaching practices."
+      </div>
+      <div class="message">
+        <p>
+          This site will generate a link to a prefilled email with randomized data. Names are fake. High schools are real. Bodies are text generated from a Markov chain trained on the bible.
+        </p>
+        <p>
+          This is for <b>educational purposes only.</b> We do not advocate actually sending the email (as fun as that is... not that we'd know), we merely intend to deter the state from  using these tips by showing how easy it could be to generate false reports automatically.
+        </p>
+      </div>
+
+      <div id="generate" class="button">
+        generate data!
+      </div>
+      <div id="form-container" style="display: none">
+        <br>
+        <div class="message">
+          Don't like the data? You can edit or generate again!
+        </div>
+        <br>
+        <div id="email-subject" class="input" contenteditable="true"></div>
+        <br>
+        <div id="email-body" class="input" contenteditable="true"></div>
+        <br>
+        <div id="make-link" class="button">
+          make link
+        </div>
+        <a id="link" href="#" target="_blank" style="display: none">Here's your link</a>
+        <div class="message" style="display:none" id="link-message" >
+          Link not working? Your browser may not be configured to use mailtos. Just copy pastes the contents and send your email to helpeducation@governor.virginia.gov.
+        </div>
+
+      </div>
+      <style>
+        body {
+            background-color: #0034B2;
+            height: 100vh;
+            font-size: 20px;
+        }
+
+        #link{
+            display: block;
+            text-align: center;
+            padding: 40px;
+            font-size: 35px;
+
+        }
+        .button {
+            width: 334px;
+            margin: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: block;
+            background-color: #0034B2;
+            border-radius: 70px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            color: white;
+            font-variant: small-caps;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .header{
+            width: 100%;
+            height: 200px;
+        }
+        #logo {
+            height: 90%;
+            float: left;
+        }
+        #me {
+            float: right;
+            font-size: 40px;
+            text-align: center;
+            padding: 60px;
+            color: white;
+        }
+        #me a{
+            text-decoration: none;
+            color: white;
+        }
+        .form {
+            background-color: white;
+            border-radius: 30px;
+            box-sizing: border-box;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 40px;
+            padding-right: 40px;
+            max-width: 1000px;
+            width: 90%;
+            display: block;
+            margin: auto;
+
+        }
+
+        .title {
+            font-family: sans-serif;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .subtitle {
+            font-family: sans-serif;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .message {
+            font-family: sans-serif;
+
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input {
+            background-color: #08d;
+            border-radius: 12px;
+            height: 75px;
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            height: auto;
+        }
+
+      </style>
+
+
+
+  </body>
+</html>
