@@ -8,9 +8,6 @@
   <body>
     <script>
       $(document).ready(function(){
-        var state = {
-          'link': null
-        }
 
         let highschools =
             [
@@ -207,6 +204,7 @@
         }
 
         function generateData(){
+
           let teacher = generateTeacher();
           let subject = toTitleCase(generateSubject(teacher));
           let body = generateBody(teacher);
@@ -215,9 +213,20 @@
           $('#form-container').css('display', 'block');
         }
 
-        function getBook(){
-          $.get("/static/bible.txt", function(data){
-            $("#book").html(data);
+        function getBook(name){
+          $("#book").html('');
+          if (name == "both"){
+            getBookHelper("bible");
+            getBookHelper("crt");
+          }
+          else {
+            getBookHelper(name);
+          }
+        }
+
+        function getBookHelper(name){
+          $.get("/static/" + name + ".txt", function(data){
+            $("#book").append(data);
           });
         }
 
@@ -246,9 +255,16 @@
 
         }
 
+        function handleCorpusSelection(e){
+          let target = $(e.currentTarget);
+          $('.small-button').removeClass('small-button-selected');
+          target.addClass('small-button-selected');
+          getBook(target.attr('id'));
+        }
         // page setup
-        getBook();
+        getBook("crt");
         $('#generate').on('click', generateData);
+        $('.small-button').on('click', handleCorpusSelection);
         $('#make-link').on('click', makeLink);
 
       });
@@ -267,11 +283,20 @@
       </div>
       <div class="message">
         <p>
-          This site will generate a link to a prefilled email with randomized data. Names are fake. High schools are real. Bodies are text generated from a Markov chain trained on the bible.
+          This site will generate a link to a prefilled email with randomized data. Names are fake. High schools are real. Bodies are generated via Markov Chain.
         </p>
         <p>
           This is for <b>educational purposes only.</b> We do not advocate actually sending the email (as fun as that is... not that we'd know), we merely intend to deter the state from  using these tips by showing how easy it could be to generate false reports automatically.
         </p>
+      </div>
+      <hr>
+      <div class="message">
+        Which corpus would you like to use for the Markov chain?
+      </div>
+      <div id="corpus">
+        <div id="crt" class="small-button small-button-selected">conservative editorials about crt</div>
+        <div id="bible" class="small-button">the bible</div>
+        <div id="both" class="small-button">both</div>
       </div>
 
       <div id="generate" class="button">
@@ -292,7 +317,7 @@
         </div>
         <a id="link" href="#" target="_blank" style="display: none">Here's your link</a>
         <div class="message" style="display:none" id="link-message" >
-          Link not working? Your browser may not be configured to use mailtos. Just copy pastes the contents and send your email to helpeducation@governor.virginia.gov.
+          Link not working? Your browser may not be configured to use mailtos. Just copy paste the contents and send your email to helpeducation@governor.virginia.gov.
         </div>
 
       </div>
@@ -310,6 +335,42 @@
             font-size: 35px;
 
         }
+
+         input[type='radio'] {
+             transform: scale(1);
+         }
+         #corpus {
+             width: 90%;
+             text-align: center;
+             display: inline-block;
+             margin: 20px auto 20px auto;
+        }
+        /* } */
+        /* #corpus div { */
+        /*     height: 45px; */
+        /*     display: inline-block; */
+        /*     margin: auto; */
+        /* } */
+
+         .small-button{
+            color: white;
+            font-variant: small-caps;
+            font-size: 23px;
+            cursor: pointer;
+            display: inline;
+            padding: 10px 30px 10px 30px;
+            margin: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #08d;
+            border-radius: 70px;
+            text-align: center;
+            vertical-align: middle;
+         }
+         .small-button-selected{
+             border: 6px solid black;
+         }
+
         .button {
             width: 334px;
             margin: auto;
